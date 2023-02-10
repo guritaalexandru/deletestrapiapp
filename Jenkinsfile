@@ -53,7 +53,7 @@ pipeline {
                 docker rm -f strapi1 || true && \
                 docker image rm -f strapi1 || true && \
                 docker image load -i strapi1.tar.gz && \
-                docker run --env-file $VARFILE -d --name strapi1 --restart always -p 1337:1337 strapi1" ""'
+                docker run --env-file ./$VARFILE -d --name strapi1 --restart always -p 1337:1337 strapi1" ""'
         }
       }
     }
