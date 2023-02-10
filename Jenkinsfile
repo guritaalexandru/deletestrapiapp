@@ -6,10 +6,15 @@ pipeline {
             branch 'main'
         }
         steps {
-            sh 'docker build \
-                -t strapi1 .'
-            sh 'docker save strapi1 | gzip > strapi1.tar.gz'
-            stash includes: 'strapi1.tar.gz', name: 'strapi1.tar.gz'
+            withCredentials([
+              file(credentialsId: 'StrapiDev-Env', variable: 'VARFILE')
+            ]) {
+                sh 'cp $VARFILE .env'
+                sh 'docker build \
+                    -t strapi1 .'
+                sh 'docker save strapi1 | gzip > strapi1.tar.gz'
+                stash includes: 'strapi1.tar.gz', name: 'strapi1.tar.gz'
+            }
         }
     }
 
@@ -42,8 +47,7 @@ pipeline {
 
         steps {
             withCredentials([
-              sshUserPrivateKey(credentialsId: 'StrapiDev-Key', keyFileVariable: 'KEYFILE'),
-              file(credentialsId: 'StrapiDev-Env', variable: 'VARFILE')
+              sshUserPrivateKey(credentialsId: 'StrapiDev-Key', keyFileVariable: 'KEYFILE')
             ]) {
             sh '""ssh -tt -i $KEYFILE ubuntu@3.74.242.104 \
                 "rm -rf strapi1 && \
@@ -53,8 +57,7 @@ pipeline {
                 docker rm -f strapi1 || true && \
                 docker image rm -f strapi1 || true && \
                 docker image load -i strapi1.tar.gz && \
-                cp \$VARFILE /env_vars && \
-                docker run --env-file ./env_vars -d --name strapi1 --restart always -p 1337:1337 strapi1" ""'
+                docker run -d --name strapi1 --restart always -p 1337:1337 strapi1" ""'
         }
       }
     }
