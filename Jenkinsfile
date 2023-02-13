@@ -9,7 +9,7 @@ pipeline {
             withCredentials([
               file(credentialsId: 'StrapiDev-Env', variable: 'VARFILE')
             ]) {
-                sh 'chown -R root:jenkins .'
+                sh 'whoami'
                 sh 'cp $VARFILE .env'
                 sh 'docker build \
                     -t strapi1 .'
