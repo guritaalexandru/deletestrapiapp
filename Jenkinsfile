@@ -11,7 +11,7 @@ pipeline {
             ]) {
                 sh 'pwd'
                 sh 'whoami'
-                sh 'cp $VARFILE ${WORKSPACE}/.env'
+                sh 'cp -f $VARFILE .env'
                 sh 'docker build \
                     -t strapi1 .'
                 sh 'docker save strapi1 | gzip > strapi1.tar.gz'
