@@ -9,8 +9,6 @@ pipeline {
             withCredentials([
               file(credentialsId: 'StrapiDev-Env', variable: 'VARFILE')
             ]) {
-                sh 'pwd'
-                sh 'whoami'
                 sh 'cp -f $VARFILE .env'
                 sh 'docker build \
                     -t strapi1 .'
