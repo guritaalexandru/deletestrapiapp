@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "csv_tests",
+  "info": {
+    "singularName": "csv-test",
+    "pluralName": "csv-tests",
+    "displayName": "CSV_Test"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "csv_file": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}
